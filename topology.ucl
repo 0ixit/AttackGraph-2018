@@ -1,0 +1,94 @@
+module main{
+  
+  type record_type = enum { pc, laptop, mobile, server, router, firewall, ids}; // type of node
+  type  record_safety = enum { safe, unsafe}; // node is safe or not  
+  type  record_domain = enum { inside, outside, internet}; // node belongs to which side  
+
+  type record_node = record {record_type : record_type, record_domain : record_domain, record_safety : record_safety}; // node record
+
+  var node : [bv3]record_node;  // node_array
+  
+  var temp_record : record_node; // temporary record
+  var temp_record_safety : record_safety; //temporary varible 
+
+  // initilization condition
+
+  init {
+
+       // node0 to node2 are outsider node.
+    
+       temp_record.record_type = laptop;
+       temp_record.record_safety = safe;  
+       temp_record.record_domain = outside; 
+
+       node[0bv3] = temp_record;
+       
+       temp_record.record_type = mobile;
+       temp_record.record_safety = safe;
+       temp_record.record_domain = outside;
+
+       node[1bv3] = temp_record;
+       
+       temp_record.record_type = mobile;
+       temp_record.record_safety = unsafe; // node2 is vulnerable
+       temp_record.record_domain = outside;
+       
+       node[2bv3] = temp_record;
+       
+       // node3, node4 belongs to internet node.
+
+       temp_record.record_type = router;
+       temp_record.record_safety = safe;
+       temp_record.record_domain = internet;
+       
+       node[3bv3] = temp_record;
+       
+       temp_record.record_type = router;
+       temp_record.record_safety = safe;
+       temp_record.record_domain = inside;
+
+       node[4bv3] = temp_record;
+       
+       // node5 is firewall, which doesn't allow any unsafe request from outside the network
+
+       temp_record.record_type = firewall;
+       temp_record.record_safety = safe;
+       temp_record.record_domain = inside;
+
+       node[5bv3] = temp_record;
+       
+       // node6 to node7 are insider nodes.
+
+       temp_record.record_type = pc;
+       temp_record.record_safety = safe;
+       temp_record.record_domain = inside;
+
+       node[6bv3] = temp_record;
+       
+       temp_record.record_type = server;
+       temp_record.record_safety = safe;
+       temp_record.record_domain = inside;
+
+       node[7bv3] = temp_record;  
+	
+     }
+
+
+  // assumption and invariant condition  
+
+  assume p : true;     
+  invariant attack : (node[5bv3]).record_safety == safe && (node[6bv3]).record_safety == safe && (node[7bv3]).record_safety == safe;  
+
+
+
+  // result validation 
+
+  control{
+   f = unroll(5);
+   check;
+   print_results;
+   f.print_cex(node[0bv3], node[1bv3], node[2bv3], node[3bv3], node[4bv3], node[5bv3], node[6bv3], node[7bv3]);
+  }
+  
+}
+
