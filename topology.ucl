@@ -12,21 +12,16 @@ module main{
 			record_safety : record_safety
 		};
 
-  var route_matrix : [bv3,bv3]boolean; // what could be the equivalent of [0bv3][0bv3]boolean ?
-  
-  //node family 
+  var route_matrix : [bv3,bv3]boolean; 
 
   var node : [bv3]record_node;
   
-  // temporary variables
-
   // init
   
   init {
        var temp_record : record_node; 
        var temp_record_safety : record_safety;
        var temp_reocrd_type : record_type; 
-
 
        // node0 to node2 are outsider node.
     
@@ -84,38 +79,29 @@ module main{
 
        node[7bv3] = temp_record;
 
-       
-       /*for (i : integer) in range(0, 7){
-           for (j : integer) in range(0, 7) {
-		var p :	integer;
-		reach_matrix[0][0] = true;		
-       */
-		/*
- 		p = i+j; // how to do modulo operations 		
-		if (p%2==0){
-		  reach_matrix[i][j] = true; 
-		} 
-		else {
-		   reach_matrix[i][j] = false;
-		}*/
-			
-	    //}
-        //}
         route_matrix = const(false, [bv3, bv3]boolean);
         route_matrix[0bv3, 3bv3] = true;
-       
-	
+	route_matrix[1bv3, 3bv3] = true;
+	route_matrix[2bv3, 3bv3] = true;
+	route_matrix[3bv3, 4bv3] = true;
+	route_matrix[3bv3, 5bv3] = true;
+	route_matrix[4bv3, 6bv3] = true;
+	route_matrix[4bv3, 7bv3] = true;
+	route_matrix[5bv3, 6bv3] = true;
+        route_matrix[5bv3, 7bv3] = true;
+
   }
+
   procedure update_nodes()
         modifies node;
   {
       for i in range(0bv3, 6bv3) {
           for j in range(0bv3, 6bv3) {
-              if (route_matrix[i, j] && (node[i]).record_safety == unsafe) {
+              if (route_matrix[i, j] && (node[i]).record_safety == unsafe && j != 5bv3) {
                   var temp_record : record_node;
                   temp_record = node[j];
                   temp_record.record_safety = unsafe;
-                  node[j] = temp_record;
+	          node[j] = temp_record;
               }
           }
       }
@@ -128,8 +114,7 @@ module main{
 
   // assumption and invariant condition  
 
-  assume p : true;
-  invariant q : false;     
+  assume p : true;     
   invariant attack : (node[5bv3]).record_safety == safe && (node[6bv3]).record_safety == safe && (node[7bv3]).record_safety == safe;  
 
   
@@ -137,7 +122,7 @@ module main{
   // result validation 
 
   control{
-   f = unroll(5);
+   f = unroll(1);
    check;
    print_results;
    f.print_cex(node[0bv3], node[1bv3], node[2bv3], node[3bv3], node[4bv3], node[5bv3], node[6bv3], node[7bv3]);
