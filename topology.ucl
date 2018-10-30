@@ -4,15 +4,28 @@ module main{
   type  record_safety = enum { safe, unsafe}; // node is safe or not  
   type  record_domain = enum { inside, outside, internet}; // node belongs to which side  
 
-  type record_node = record {record_type : record_type, record_domain : record_domain, record_safety : record_safety}; // node record
+  //creation of node data type
 
-  var node : [bv3]record_node;  // node_array
+  type record_node = record {
+			record_type : record_type, 
+			record_domain : record_domain,
+			record_safety : record_safety
+		};
+
+  var reach_matrix : [integer][integer]boolean; // what could be the equivalent of [0bv3][0bv3]boolean ?
   
-  var temp_record : record_node; // temporary record
-  var temp_record_safety : record_safety; //temporary varible 
+  //node family 
 
-  // initilization condition
+  var node : [bv3]record_node;
+  
+  // temporary variables
 
+  var temp_record : record_node; 
+  var temp_record_safety : record_safety;
+  var temp_reocrd_type : record_type; 
+
+  // init
+  
   init {
 
        // node0 to node2 are outsider node.
@@ -69,17 +82,43 @@ module main{
        temp_record.record_safety = safe;
        temp_record.record_domain = inside;
 
-       node[7bv3] = temp_record;  
-	
-     }
+       node[7bv3] = temp_record;
 
+       
+       for (i : integer) in range(0, 7){
+           for (j : integer) in range(0, 7) {
+		var p :	integer;
+		reach_matrix[0][0] = true;		
+		/*
+ 		p = i+j; // how to do modulo operations 		
+		if (p%2==0){
+		  reach_matrix[i][j] = true; 
+		} 
+		else {
+		   reach_matrix[i][j] = false;
+		}*/
+			
+	}
+       }
+       
+	
+  }
+  /*
+  procedure (){
+	
+  }
+
+  next{
+     
+  }*/
 
   // assumption and invariant condition  
 
-  assume p : true;     
+  assume p : true;
+  invariant q : false;     
   invariant attack : (node[5bv3]).record_safety == safe && (node[6bv3]).record_safety == safe && (node[7bv3]).record_safety == safe;  
 
-
+  
 
   // result validation 
 
@@ -91,4 +130,3 @@ module main{
   }
   
 }
-
