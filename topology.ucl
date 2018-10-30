@@ -12,7 +12,7 @@ module main{
 			record_safety : record_safety
 		};
 
-  var reach_matrix : [integer][integer]boolean; // what could be the equivalent of [0bv3][0bv3]boolean ?
+  var route_matrix : [bv3,bv3]boolean; // what could be the equivalent of [0bv3][0bv3]boolean ?
   
   //node family 
 
@@ -20,13 +20,13 @@ module main{
   
   // temporary variables
 
-  var temp_record : record_node; 
-  var temp_record_safety : record_safety;
-  var temp_reocrd_type : record_type; 
-
   // init
   
   init {
+       var temp_record : record_node; 
+       var temp_record_safety : record_safety;
+       var temp_reocrd_type : record_type; 
+
 
        // node0 to node2 are outsider node.
     
@@ -85,10 +85,11 @@ module main{
        node[7bv3] = temp_record;
 
        
-       for (i : integer) in range(0, 7){
+       /*for (i : integer) in range(0, 7){
            for (j : integer) in range(0, 7) {
 		var p :	integer;
 		reach_matrix[0][0] = true;		
+       */
 		/*
  		p = i+j; // how to do modulo operations 		
 		if (p%2==0){
@@ -98,19 +99,32 @@ module main{
 		   reach_matrix[i][j] = false;
 		}*/
 			
-	}
-       }
+	    //}
+        //}
+        route_matrix = const(false, [bv3, bv3]boolean);
+        route_matrix[0bv3, 3bv3] = true;
        
 	
   }
-  /*
-  procedure (){
+  procedure update_nodes()
+        modifies node;
+  {
+      for i in range(0bv3, 6bv3) {
+          for j in range(0bv3, 6bv3) {
+              if (route_matrix[i, j] && (node[i]).record_safety == unsafe) {
+                  var temp_record : record_node;
+                  temp_record = node[j];
+                  temp_record.record_safety = unsafe;
+                  node[j] = temp_record;
+              }
+          }
+      }
 	
   }
 
   next{
-     
-  }*/
+        call update_nodes();
+  }
 
   // assumption and invariant condition  
 
