@@ -49,7 +49,7 @@ class Graph:
             
             for i in goal:
                 if i == s:
-                    return True
+                    return False
 
             for i in self.graph[s]:
                 if visited[i] == False:
@@ -77,6 +77,8 @@ g.addEdge(6, 6)
 g.addEdge(7, 7)
 
 for i in init:
-    if g.safeBFS(i) == True:
+    if g.safeBFS(i) == False:
         print("Vulenrable State"+str(i))
+    else :
+        print("Safe State"+str(i))
 
