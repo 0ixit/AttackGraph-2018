@@ -28,50 +28,55 @@ from collections import defaultdict
 class Graph: 
   
     def __init__(self): 
-  
+ 
         self.graph = defaultdict(list) 
-  
+ 
+
     def addEdge(self,u,v): 
         self.graph[u].append(v)
-        print(graph[u]) 
-  
-    def BFS(self, s): 
-  
-        # Mark all the vertices as not visited 
+        # {0: [3], 1: [3], 2: [3], 3: [4, 5], 4: [6, 7], 5: [6, 7], 6: [6], 7: [7]})
+
+    def safeBFS(self, s): 
         visited = [False] * (len(self.graph)) 
 
-        # Create a queue for BFS 
         queue = [] 
   
-        # Mark the source node as  
-        # visited and enqueue it 
         queue.append(s) 
         visited[s] = True
   
         while queue: 
-  
-            # Dequeue a vertex from  
-            # queue and print it 
             s = queue.pop(0) 
-            print (s, end = " ") 
-  
-            # Get all adjacent vertices of the 
-            # dequeued vertex s. If a adjacent 
-            # has not been visited, then mark it 
-            # visited and enqueue it 
-            print(self.graph[s]) 
-            for i in self.graph[s]: 
-                if visited[i] == False: 
-                    queue.append(i) 
+            
+            for i in goal:
+                if i == s:
+                    return True
+
+            for i in self.graph[s]:
+                if visited[i] == False:
+                    queue.append(i)
                     visited[i] = True
+
+
+                    
 
 g = Graph() 
 
-g.addEdge(0, 1) 
-g.addEdge(0, 2) 
-g.addEdge(1, 2) 
-g.addEdge(2, 0) 
-g.addEdge(2, 3) 
-g.addEdge(3, 3) 
+init = [0,1,2]
+goal = [6,7]
 
-g.BFS(2) 
+g.addEdge(0, 3) 
+g.addEdge(1, 3) 
+g.addEdge(2, 3) 
+g.addEdge(3, 4) 
+g.addEdge(3, 5)
+g.addEdge(4, 6)
+g.addEdge(4, 7)
+g.addEdge(5, 6)
+g.addEdge(5, 7)
+g.addEdge(6, 6)
+g.addEdge(7, 7)
+
+for i in init:
+    if g.safeBFS(i) == True:
+        print("Vulenrable State"+str(i))
+
