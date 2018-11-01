@@ -24,10 +24,9 @@ print(*Rarr)
 
 s.add(And(Init,*Rarr))
 
-"""
 for c in s.assertions():
 	print(c)
 
 if s.check()==sat:
 	print(s.model())
-"""
+
