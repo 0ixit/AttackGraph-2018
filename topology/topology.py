@@ -1,29 +1,4 @@
-"""
-index = 0
-from z3 import *
-
-# init  -->  set of initial state
-# goal  -->  set of final state
-# trans -->  set of transition relation
-
-trans = [(1,4), (2,4), (3,4), (4,5), (4,6), (5,7), (5,8), (6,7), (6,8)];
-
-x0, x1 = Consts('x0 x1', BitVecSort(4))
-
-s = Solver()
-
-init = [Or(x0==1, x0==2, x0==3)]
-	
-s.add(init)
-s.add(final)
-print(s.check())
-print(s.model())
-
-
-print(x0, x1)
-"""
- 
-from collections import defaultdict 
+ from collections import defaultdict 
   
 class Graph: 
   
