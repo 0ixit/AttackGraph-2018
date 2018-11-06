@@ -69,9 +69,23 @@ def main():
 
     #### Constraint add to Solver
 
+    s.push()
     s.add(Not(Implies(And(*Init), Psi_S)))           # Init(S) --> Psi(S)
+    r = s.check()
+    assert r == unsat
+    s.pop()
+
+    s.push()
     s.add(Not(Implies(And(Psi_S, R_S_SP), Psi_SP)))  # (Psi(S) && R(S, SP)) --> Psi(SP)
+    r = s.check()
+    assert r == unsat
+    s.pop()
+
+    s.push()
     s.add(Not(Implies(Psi_S, P_S)))                  #  Psi(S) -- P(S)
+    r = s.check()
+    assert r == unsat
+    s.pop()
 
     """
     // to print assertions
