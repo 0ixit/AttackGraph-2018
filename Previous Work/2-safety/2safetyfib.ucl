@@ -3,7 +3,7 @@ module fib{
   var a, b : integer;
  
   init{	
-        assume(a>=0);
+    assume(a>=0);
 	assume(b>0);
 	assume(a<=b);
   }
@@ -25,8 +25,8 @@ module main{
   }
  
   next{
-	next(fib1);
-	next(fib2);
+	 next(fib1);
+	 next(fib2);
   }
   
   property safety : (fib1.a == fib2.a && fib1.b == fib2.b); 

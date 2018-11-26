@@ -81,13 +81,13 @@ module main{
 
         route_matrix = const(false, [bv3, bv3]boolean);
         route_matrix[0bv3, 3bv3] = true;
-	route_matrix[1bv3, 3bv3] = true;
-	route_matrix[2bv3, 3bv3] = true;
-	route_matrix[3bv3, 4bv3] = true;
-	route_matrix[3bv3, 5bv3] = true;
-	route_matrix[4bv3, 6bv3] = true;
-	route_matrix[4bv3, 7bv3] = true;
-	route_matrix[5bv3, 6bv3] = true;
+      	route_matrix[1bv3, 3bv3] = true;
+      	route_matrix[2bv3, 3bv3] = true;
+      	route_matrix[3bv3, 4bv3] = true;
+      	route_matrix[3bv3, 5bv3] = true;
+      	route_matrix[4bv3, 6bv3] = true;
+      	route_matrix[4bv3, 7bv3] = true;
+      	route_matrix[5bv3, 6bv3] = true;
         route_matrix[5bv3, 7bv3] = true;
 
   }

@@ -87,32 +87,17 @@ def main():
     assert r == unsat
     s.pop()
 
+    
     """
     // to print assertions
 
     for c in s.assertions():
         print(c)    
     """
-
-    print(s.check())
- 
-    if (s.check()) == sat:
-        p = s.model()
-        print(p)
-    else:
-        print("Induction proof holds :)")
+    
+    print("Induction proof holds :)")
         
-        """
-        // can be used to print model value in some manual order 
-
-        print("f1a_s0 : " + str(p.evaluate(f1a_s0)) + \
-         ", f1b_s0 : " + str(p.evaluate(f1b_s0)) + \
-         ", f2a_s0 : " + str(p.evaluate(f2a_s0)) + \
-         ", f2b_s0 : " + str(p.evaluate(f2b_s0))\
-         )
-
-        """
- 
+    
 if __name__ == '__main__':
     main()
 

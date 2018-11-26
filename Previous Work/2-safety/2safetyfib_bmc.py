@@ -26,8 +26,7 @@ def main():
      fib2_constr =  And(fib2_a[i]==fib2_b[i-1], fib2_b[i] == fib2_a[i-1] + fib2_b[i-1])  
      prop_constr =  And(fib1_a[i-1] == fib2_a[i-1], fib1_b[i-1] == fib2_b[i-1])
      Constr.extend([fib1_constr, fib2_constr, prop_constr])
-    
-        
+
     s = Solver()
     s.add(And(Init, *Constr))
 
@@ -38,8 +37,7 @@ def main():
     
     if(s.check()==sat):
         print(s.model())
-
-        
+    
 if __name__ == '__main__':
     main()
 
