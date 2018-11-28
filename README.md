@@ -1,22 +1,17 @@
-# AttackGraph-2018
+# AAG (Automated Attack graph)
 
-A Tool for Automated Generation and Analysis of Attack Graphs.
+AAG is a Tool for generating automatic attack graph.
 
-## Steps to Produce attack graph
-* Model the network
-* Produce an attack graph
-* Analysis of attack graph
+## Clone AAG Directory
 
-## Basic requirment's of attack graph 
-* It should be **exhaustive**, it covers all possible attacks.
-* It should be **succinct**, it contains only these state's of network, from which attacker can reach his goal.
+git clone git@github.com:node104/AttackGraph-2018.git
 
+## Pre-Requisite, library installation (python z3)
 
-## Progress
-* Attack Graph for Static Topology
-  1. Uclid for checking safety property of internal nodes.
-  2. Python bfs, for checking safety property of internal nodes.
-* Indroduction to Python Z3 API
-  1. Bounded model checking to prove 2-safety property of fibonacci.
-  2. Induction proof for 2-safety property of fibonacci.
+Insturction for installation of z3 on python can be found here https://github.com/Z3Prover/z3
+
+## Run the code
+
+python3 aag.py
+
 
