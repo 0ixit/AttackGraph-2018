@@ -1,6 +1,6 @@
 # AAG (Automated Attack graph)
 
-AAG is a Tool for generating automatic attack graph.
+AAG is a tool for generating automatic attack graph.
 
 ## Clone AAG Directory
 
