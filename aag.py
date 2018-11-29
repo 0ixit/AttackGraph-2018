@@ -9,7 +9,7 @@ import random
 ##
 ##  @configuration
 ##
-##  node in network = 16 // could be dynamic 
+##  node in network = 6 // could be dynamic 
 ##  node_type :: {
 ##          0 : pc         
 ##          1 : laptop
