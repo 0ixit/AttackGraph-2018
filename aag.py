@@ -3,6 +3,40 @@ from z3 import *
 import time
 import random
 
+
+#####################################
+#####################################
+##
+##  @configuration
+##
+##  node in network = 16 // could be dynamic 
+##  node_type :: {
+##          0 : pc         
+##          1 : laptop
+##          2 : mobile
+##          3 : server
+##          4 : router
+##          5 : firewall
+##          6 : ids
+##          7 : unknown 
+##  }
+##  
+##  node_safe :: {
+##          True  : safe
+##          False : unsafe
+##  }
+##  
+##  node_domain :: {
+##          0 : outside
+##          1 : internet
+##          2 : inside (critical)
+##  }
+##
+##
+#####################################
+#####################################
+
+
 def flat(unflat):
     flat_dict = []
     for sublist in unflat:
@@ -14,8 +48,10 @@ def attack_graph():
 
     t = time.time()
 
-    n_size, unroll, base = 6, 3, 1
+    # no of node in network 6
+    # unroll step 3
 
+    n_size, unroll, base = 6, 3, 1 
     s         = Solver()
     node      = []
     edge_list = []
@@ -24,6 +60,8 @@ def attack_graph():
     node_type   =   []
     node_safe   =   []
     node_domain =   []
+
+    # creation of z3 variable
 
     for i in range(unroll+base):
         unflat = [ BitVecs('node_id_%d_%d' % (i, j), 4) for j in range(n_size)]
@@ -38,6 +76,8 @@ def attack_graph():
         unflat = [ BitVecs('node_domain_%d_%d' % (i, j), 2) for j in range(n_size)]
         node_domain.append(flat(unflat))
 
+    # creation of z3 datatype
+
     tuple = z3.Datatype('tuple')
     tuple.declare('tuple',('f1', BitVecSort(4)), ('f2', BitVecSort(3)), ('f3', BoolSort()), ('f4', BitVecSort(2)))
     tuple = tuple.create()
@@ -46,8 +86,12 @@ def attack_graph():
     edge.declare('edge',('f1', tuple), ('f2', tuple))
     edge = edge.create()
     
+    # bmc variable creation
+
     for i in range(unroll+base):
         node.append([tuple.tuple(node_id[i][j], node_type[i][j], node_safe[i][j], node_domain[i][j]) for j in range(n_size)])    
+
+    # network topology
 
     node[0][0]  = tuple.tuple(0, 0, False, 0)
     node[0][1]  = tuple.tuple(1, 0, True, 0)
@@ -57,7 +101,7 @@ def attack_graph():
     node[0][5]  = tuple.tuple(5, 0, True, 2)
     
 
-    ## creation of routing table
+    # creation of routing table
 
     edge_list = []
     edge_list.append(edge.edge(node[0][0],  node[0][1]))
@@ -70,6 +114,8 @@ def attack_graph():
 
     for i in range(len(edge_list)):
         a = z3.Store(a, edge_list[i], True)
+
+    # bounded model checking 
 
     for u in range(1, unroll+base):
         c = u 
@@ -97,7 +143,9 @@ def attack_graph():
             
             s.add(If(Or(*infected_neighbour) == True, make_change, make_no_change))
 
-            
+        
+        # safety property    
+
         safety = []
         for i in range(n_size):
             safety.append(And(tuple.f4(node[c][i]) == 2, tuple.f3(node[c][i]) == False))
@@ -105,6 +153,8 @@ def attack_graph():
         s.push()
         s.add(Or(*safety))
         
+        # attack graph generation
+
         x = s.check()
         print("\nunroll : ", u)
         print(x)
@@ -120,5 +170,7 @@ def attack_graph():
                         pass
 
         s.pop()
+
+        print("\nTime required to run : " + str(round(time.time()-t, 2))+" sec")
 
 attack_graph()
